@@ -11,8 +11,8 @@ var mongoClient = require('mongodb').MongoClient;
 mongoClient.connect('mongodb://127.0.0.1:27017', {useNewUrlParser: true}, function(err, client) {
     if(err) throw err;
 
-    db = client.db('school')
-    console.log(db.students)
+    db = client.db('project_CodeFiner')
+    console.log(db.project_CodeFiner)
 
     db.collection('userRegister').find().toArray(function(err, result) {
         if(err) throw err;
@@ -20,32 +20,27 @@ mongoClient.connect('mongodb://127.0.0.1:27017', {useNewUrlParser: true}, functi
     })
 })
 
-//Creating a get search function
-app.get('/get', function(req, res) {
-    db.collection('subjects').find().toArray(function(err, result) {
-        if(err) throw err;
-        res.json(result);
-    });
-});
 
 //Before Using the form we must put the bodyParser in use. So that the form data can be parsed.
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
-app.get('/insert', function(req, res) {
-    db.collection('subjects').insert({name: "English", credits: 4, prof: "Mr. E"})
-    res.redirect('/search');
-})
+
+//signup route routings
+app.get('/signup', function(req, res) {
+    res.sendfile('public/signup.html')
+});
+
 //login routings
-app.get('/login', function(req, res) {
-        res.sendfile('public/login.html')
+app.get('/signin', function(req, res) {
+        res.sendfile('public/signin.html')
 })
 
 
 //Posting registration form
-app.post('/form', function(req, res) { 
+app.post('/reg-form', function(req, res) { 
     db.collection('userRegister').insertOne(req.body);
-    res.redirect('/login');
+    res.redirect('/signin');
     console.log(JSON.stringify(req.body) + " added to the db.userRegister"); 
 });
 

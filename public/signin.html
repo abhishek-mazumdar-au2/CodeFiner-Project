@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+</head>
+<body>
+    <div class="form-popup" id="myForm">
+        <h4>Fill the form</h4>
+        <form action="/form-login" method="POST">
+        <input type="text" placeholder="username" name="username" id="user" required> <br>
+        <input type="password" placeholder="Password" name="password" id="pwd" required> <br>
+        <button type="submit">Submit</button> <br>
+        <a href="/">Register New User.</a>  
+        </form>
+    </div>
+    <script>
+        var user = document.getElementById('user').value;
+        var password = document.getElementById('pwd').value;
+
+        document.querySelector('button').addEventListener('click', function(){
+            console.log("Login button clicked");
+        })
+    
+    </script>
+</body>
+
+</html>
