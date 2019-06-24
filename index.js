@@ -11,7 +11,7 @@ var mongoClient = require('mongodb').MongoClient;
 mongoClient.connect('mongodb://127.0.0.1:27017', {useNewUrlParser: true}, function(err, client) {
     if(err) throw err;
 
-    db = client.db('project_CodeFiner')
+    db = client.db('project_CodeFiner') //Our DB : "project_CodeFiner"
     console.log(db.project_CodeFiner)
 
     db.collection('userRegister').find().toArray(function(err, result) {
