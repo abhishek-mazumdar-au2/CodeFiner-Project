@@ -39,7 +39,7 @@ app.get('/signin', function(req, res) {
 
 //Posting registration form
 app.post('/reg-form', function(req, res) { 
-    db.collection('userRegister').insertOne(req.body);
+    db.collection('userRegister').insert(req.body);
     res.redirect('/signin');
     console.log(JSON.stringify(req.body) + " added to the db.userRegister"); 
 });
@@ -52,10 +52,24 @@ app.use(session({
 
 //For Login
 app.post('/form-login', function(req, res) {
-    if((db.collection('userRegister').find({username: req.body.username}))) {
-        req.session.loggedIn = true;
-        req.session.username = req.body.username;
-    }res.redirect('/profile')
+    // var db = req.app.locals.db;
+    db.collection('userRegister').findOne({username: req.body.username}, function(err, response){
+        if(err) throw err;
+        else if(!response) {
+            console.log("There is no data corresponding to this data.");
+        }else {
+            db.collection('userRegister').find({"password": {$eq:"req.body.password"}}, function(err, result){
+                if(err) throw err;
+                else if(!result) {
+                    console.log("Wrong Inputs");
+                }else{
+                    req.session.loggedIn = true;
+                    req.session.user_id = response.id;
+                    res.redirect('/profile');
+                }
+            } )
+        }
+    })
     
 })
 
@@ -84,4 +98,4 @@ app.get('/logout', function(req, res) {
 })
 
 
-app.listen(3000)
+app.listen(4000)
